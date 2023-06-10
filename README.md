@@ -1,4 +1,6 @@
-# Source Code for Optimised Path Space Regularisation (OPSR)
+# Optimised Path Space Regularisation (OPSR)
+
+Source Code for the paper "Optimised Path Space Regularisation" from EGSR 2021
 
 ## Overview
 
