@@ -2,6 +2,8 @@
 
 Source Code for the paper "Optimised Path Space Regularisation" from EGSR 2021
 
+![alt text](https://github.com/WeiPhil/portfolio/blob/master/src/data/opsr/beach_thumbnail.png)
+
 ## Overview
 
 The source code is divided in three main folders : 
