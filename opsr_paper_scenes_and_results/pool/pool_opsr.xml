@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<scene version="2.1.0">
+
+    <!-- Rendering settings -->
+    <default name="spp" value="1024"/>
+    <default name="max_depth" value="10"/>
+    <default name="timeout" value="-1.0"/>
+    <default name="samples_per_pass" value="4294967295"/> <!-- == ((size_t) -1) -->
+
+    <!-- OPSR specifics -->
+    <default name="regularise_all" value="false"/>
+    <default name="roughening_mode" value="low"/>
+
+    <!-- Water surface translation and roughness -->
+    <default name="roughness" value="0.0001"/>
+    <default name="y_translate" value="0.0"/>
+
+    <integrator type="path_opsr_interp_learnt">
+        <integer name="max_depth" value="$max_depth" />
+        <float name="timeout" value="$timeout"/>
+        <integer name="samples_per_pass" value="$samples_per_pass"/>
+
+        <string name="roughening_mode" value="$roughening_mode" />
+        <boolean name="regularise_all" value="$regularise_all"/>
+    </integrator>
+
+    <sensor type="perspective">
+        <float name="focus_distance" value="20.4372" />
+        <float name="fov" value="35" />
+        <string name="fov_axis" value="x" />
+        <transform name="to_world">
+            <lookat target="-15.9616, 11.7558, -1.48863" origin="-16.7588, 12.3537, -1.57168" up="0.596265, 0.801439, 0.0465163" />
+        </transform>
+        <sampler type="independent">
+            <integer name="sample_count" value="$spp" />
+        </sampler>
+        <film type="hdrfilm">
+            <integer name="height" value="1080" />
+            <string name="pixel_format" value="rgb" />
+            <integer name="width" value="1920" />
+            <rfilter type="gaussian" />
+        </film>
+    </sensor>
+
+    <emitter type="envmap">
+        <string name="filename" value="textures/quarry_03_1k.exr" />
+        <float name="scale" value="0.4" />
+        <transform name="to_world">
+            <rotate x="0.0" y="1.0" z="0.0" angle="-10" />
+        </transform>
+    </emitter>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_water_surface.obj" />
+        <bsdf type="roughdielectric">
+            <float name="int_ior" value="1.33" />
+            <float name="alpha" value="$roughness" />
+        </bsdf>
+        <transform name="to_world">
+            <translate y="$y_translate"/>
+        </transform>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_inside.obj" />
+        <bsdf type="diffuse">
+            <texture name="reflectance" type="bitmap">
+                <string name="filename" value="textures/pool_tiles.jpg" />
+                <transform name="to_uv">
+                    <scale x="0.75" y="0.75" />
+                </transform>
+            </texture>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ladder.obj"/>
+
+        <bsdf type="twosided">
+            <bsdf type="roughconductor">
+                <string name="material" value="Cr"/>
+                <float name="alpha" value="0.1"/>
+            </bsdf>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ladder_knobs.obj"/>
+
+        <bsdf type="twosided">
+            <bsdf type="roughconductor">
+                <string name="material" value="Cr"/>
+                <float name="alpha" value="0.1"/>
+            </bsdf>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ladder_steps.obj"/>
+
+        <bsdf type="twosided">
+            <bsdf type="roughconductor">
+                <string name="material" value="Cr"/>
+                <float name="alpha" value="0.1"/>
+            </bsdf>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/floor.obj" />
+        <bsdf type="bumpmap">
+            <bsdf type="diffuse">
+                <texture name="reflectance" type="bitmap">
+                    <string name="filename" value="textures/tiles_grey.png" />
+                    <transform name="to_uv">
+                        <scale x="10.000000" y="10.000000" />
+                    </transform>
+                </texture>
+            </bsdf>
+            <float name="scale" value="0.001" />
+            <texture type="bitmap">
+                <boolean name="raw" value="true" />
+                <string name="filename" value="textures/tiles_grey.png" />
+                <transform name="to_uv">
+                    <scale x="10.000000" y="10.000000" />
+                </transform>
+            </texture>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_border.obj" />
+        <bsdf type="bumpmap">
+            <bsdf type="diffuse">
+                <texture name="reflectance" type="bitmap">
+                    <string name="filename" value="textures/pelagonia-rocks_4k.jpg" />
+                </texture>
+            </bsdf>
+            <float name="scale" value="0.001" />
+            <texture type="bitmap">
+                <boolean name="raw" value="true" />
+                <string name="filename" value="textures/pelagonia-rocks_4k_bmp_1.jpg" />
+            </texture>
+        </bsdf>
+    </shape>
+</scene>

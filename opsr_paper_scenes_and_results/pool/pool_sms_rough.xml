@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<scene version="2.1.0">
+
+    <!-- Rendering settings -->
+    <default name="y_translate" value="0.0" />
+    <default name="spp" value="40" />
+    <default name="timeout" value="-1.0"/>
+    <default name="samples_per_pass" value="4294967295"/> <!-- == ((size_t) -1) -->
+    <default name="max_depth" value="10"/>
+
+    <!-- SMS specifics -->
+    <default name="caustics_biased"                 value="false"/>
+    <default name="caustics_twostage"               value="false"/>
+    <default name="caustics_halfvector_constraints" value="false"/>
+    <default name="caustics_mnee_init"              value="false"/>
+    <default name="caustics_max_iterations"         value="20"/>
+    <default name="caustics_solver_threshold"       value="0.001"/>
+    <default name="caustics_uniqueness_threshold"   value="0.001"/>
+    <default name="caustics_max_trials"             value="1000000"/>
+    <default name="biased_mnee" value="false"/>
+
+    <!-- Water surface translation -->
+    <default name="y_translate"             value="0.0"/>
+    <default name="roughness"             value="0.0001"/>
+
+    <integrator type="path_sms_ss">
+        <integer name="max_depth" value="$max_depth"/>
+        <integer name="samples_per_pass" value="$samples_per_pass"/>
+        <float name="timeout" value="$timeout"/>
+
+        <boolean name="biased"                  value="$caustics_biased"/>
+        <boolean name="twostage"                value="$caustics_twostage"/>
+        <boolean name="halfvector_constraints"  value="$caustics_halfvector_constraints"/>
+        <boolean name="mnee_init"               value="$caustics_mnee_init"/>
+        <integer name="max_iterations"          value="$caustics_max_iterations"/>
+        <float   name="solver_threshold"        value="$caustics_solver_threshold"/>
+        <float   name="uniqueness_threshold"    value="$caustics_uniqueness_threshold"/>
+        <integer name="max_trials"              value="$caustics_max_trials"/>
+
+        <boolean name="biased_mnee" value="$biased_mnee"/>
+    </integrator>
+
+    <sensor type="perspective">
+        <float name="focus_distance" value="20.4372" />
+        <float name="fov" value="35" />
+        <string name="fov_axis" value="x" />
+        <transform name="to_world">
+            <lookat target="-15.9616, 11.7558, -1.48863" origin="-16.7588, 12.3537, -1.57168" up="0.596265, 0.801439, 0.0465163" />
+        </transform>
+        <sampler type="independent">
+            <integer name="sample_count" value="$spp" />
+        </sampler>
+        <film type="hdrfilm">
+            <integer name="height" value="1080" />
+            <string name="pixel_format" value="rgb" />
+            <integer name="width" value="1920" />
+            <rfilter type="gaussian" />
+        </film>
+    </sensor>
+    <emitter type="envmap">
+        <string name="filename" value="textures/quarry_03_1k.exr" />
+
+        <boolean name="caustic_emitter_single" value="true"/>
+
+        <float name="scale" value="0.4" />
+        <transform name="to_world">
+            <rotate x="0.0" y="1.0" z="0.0" angle="-10" />
+        </transform>
+    </emitter>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_water_surface.obj" />
+
+        <boolean name="caustic_caster_single" value="true"/>
+
+        <bsdf type="roughdielectric">
+            <float name="int_ior" value="1.33" />
+            <float name="alpha" value="$roughness" />
+        </bsdf>
+        <transform name="to_world">
+            <translate y="$y_translate"/>
+        </transform>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_inside.obj" />
+        <boolean name="caustic_receiver" value="true"/>
+
+        <bsdf type="diffuse">
+            <texture name="reflectance" type="bitmap">
+                <string name="filename" value="textures/pool_tiles.jpg" />
+                <transform name="to_uv">
+                    <scale x="0.75" y="0.75" />
+                </transform>
+            </texture>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+		<string name="filename" value="meshes/ladder.obj"/>
+
+		<bsdf type="twosided">
+			<bsdf type="roughconductor">
+				 	<string name="material" value="Cr"/>
+					<float name="alpha" value="0.1"/>
+			</bsdf>
+		</bsdf>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/ladder_knobs.obj"/>
+
+		<bsdf type="twosided">
+			<bsdf type="roughconductor">
+					<string name="material" value="Cr"/>
+					<float name="alpha" value="0.1"/>
+			</bsdf>
+		</bsdf>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/ladder_steps.obj"/>
+
+		<bsdf type="twosided">
+			<bsdf type="roughconductor">
+					<string name="material" value="Cr"/>
+					<float name="alpha" value="0.1"/>
+			</bsdf>
+		</bsdf>
+	</shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/floor.obj" />
+        <!-- <bsdf type="bumpmap"> -->
+
+            <bsdf type="diffuse">
+                <texture name="reflectance" type="bitmap">
+                    <string name="filename" value="textures/tiles_grey.png" />
+                    <transform name="to_uv">
+                        <scale x="10.000000" y="10.000000" />
+                    </transform>
+                </texture>
+            </bsdf>
+            <!-- <float name="scale" value="0.001" />
+            <texture type="bitmap">
+              <boolean name="raw" value="true" />
+                <string name="filename" value="textures/tiles_grey.png" />
+                <transform name="to_uv">
+                    <scale x="10.000000" y="10.000000" />
+                </transform>
+            </texture>
+        </bsdf> -->
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/pool_border.obj" />
+        <!-- <bsdf type="bumpmap"> -->
+            <bsdf type="diffuse">
+                <texture name="reflectance" type="bitmap">
+                    <string name="filename" value="textures/pelagonia-rocks_4k.jpg" />
+                </texture>
+            </bsdf>
+            <!-- <float name="scale" value="0.001" />
+            <texture type="bitmap">
+              <boolean name="raw" value="true" />
+                <string name="filename" value="textures/pelagonia-rocks_4k_bmp_1.jpg" />
+            </texture>
+        </bsdf> -->
+    </shape>
+</scene>

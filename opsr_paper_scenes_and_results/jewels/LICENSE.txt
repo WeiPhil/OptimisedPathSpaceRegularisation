@@ -1,0 +1,10 @@
+This scene was modelled in Blender by Philippe Weier. 
+
+The HDR map and textures are from https://polyhaven.com/
+
+This scene is released under a CC0 license and is in the public domain.
+It may be copied, modified and used commercially, without permission or
+attribution. However, crediting the artist is encouraged.
+
+For more information about the license, please see
+https://creativecommons.org/publicdomain/zero/1.0/

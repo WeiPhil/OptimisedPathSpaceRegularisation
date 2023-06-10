@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scene version="2.0.0">
+	<default name="size" value="512"/>
+	<default name="spp" value="128"/>
+	<default name="depth" value="10"/>
+	<default name="pixel_format" value="rgb"/>
+	<default name="crop_width" value="$size" />
+	<default name="crop_height" value="$size" />
+	<default name="crop_offset_x" value="0" />
+	<default name="crop_offset_y" value="0" />
+	<default name="integrator" value="path_opsr" />
+	<default name="seed" value="0" />
+
+	<integrator type="momentrgb">
+		<integrator type="$integrator">
+			<integer name="max_depth" value="$depth" />
+		</integrator>
+	</integrator>
+
+	<sensor type="perspective">
+		<string name="fov_axis" value="smaller"/>
+		<float name="near_clip" value="10"/>
+		<float name="far_clip" value="2800"/>
+		<float name="focus_distance" value="1000"/>
+		<transform name="to_world">
+			<lookat origin="278, 273, -800" target="278, 273, -799" up="0, 1, 0"/>
+		</transform>
+		<float name="fov" value="39.3077"/>
+
+		<sampler type="independent">
+				<integer name="sample_count" value="$spp" />
+				<integer name="seed" value="$seed" />
+		</sampler>
+		<film type="hdrfilm">
+				<integer name="width" value="$size" />
+				<integer name="crop_offset_x" value="$crop_offset_x" />
+				<integer name="crop_offset_y" value="$crop_offset_y" />
+				<integer name="crop_width" value="$crop_width" />
+				<integer name="crop_height" value="$crop_height" />
+				<integer name="height" value="$size" />
+				<string name="pixel_format" value="rgb" />
+				<rfilter type="gaussian" />
+		</film>
+	</sensor>
+
+	<bsdf type="diffuse" id="white">
+		<rgb name="reflectance" value="0.725, 0.71, 0.68"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="red">
+		<rgb name="reflectance" value="0.14, 0.45, 0.091"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="green_rough">
+			<string name="material" value="Cu"/>
+			<!-- <rgb name="specular_reflectance" value="0.63, 0.065, 0.05"/> -->
+			<float name="alpha" value="0.6"/>
+	</bsdf>
+<!--
+	<bsdf type="diffuse" id="green">
+		<spectrum name="reflectance" value="0.63, 0.065, 0.05"/>
+	</bsdf>
+-->
+	<bsdf type="diffuse" id="light">
+		<rgb name="reflectance" value="0 0 0"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="icosphere">
+		<rgb name="reflectance" value="0.02 0.1 1"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="mirror">
+		<spectrum name="eta" value="0.0"/>
+		<spectrum name="k" value="1.0"/>
+		<float name="alpha" value="0.0"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="miniplane1">
+		<string name="material" value="Cu"/>
+		<!--<spectrum name="eta" value="0.0"/>-->
+		<!--<spectrum name="k" value="1.0"/>-->
+		<float name="alpha" value="0.05"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="miniplane2">
+		<spectrum name="eta" value="0.0"/>
+		<spectrum name="k" value="1.0"/>
+		<float name="alpha" value="0.01"/>
+	</bsdf>
+
+
+
+	<bsdf type="roughconductor" id="miniplane3">
+		<string name="material" value="Cu"/>
+		<!--<spectrum name="eta" value="0.0"/>-->
+		<!--<spectrum name="k" value="1.0"/>-->
+		<float name="alpha" value="0.01"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="plane">
+		<spectrum name="eta" value="0.0"/>
+		<spectrum name="k" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="roughdielectric" id="glass">
+	    <float name="alpha" value="0.0001" />
+	    <string name="int_ior" value="bk7"/>
+	    <string name="ext_ior" value="air"/>
+	</bsdf>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_luminaire.obj"/>
+
+		<ref id="light"/>
+
+		<emitter type="area">
+			<rgb name="radiance" value="340, 240, 80"/>
+		</emitter>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_floor.obj"/>
+
+		<ref id="white"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_ceiling.obj"/>
+
+		<ref id="white"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_back.obj"/>
+
+		<ref id="white"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_greenwall.obj"/>
+
+		<ref id="green_rough"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_redwall.obj"/>
+
+		<ref id="red"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_mirror_thick.obj"/>
+
+		<ref id="mirror"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_miniplane1.obj"/>
+
+		<ref id="miniplane1"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_miniplane2.obj"/>
+
+		<ref id="miniplane2"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_miniplane3.obj"/>
+
+		<ref id="miniplane3"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_big_sphere.obj"/>
+
+		<ref id="glass"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_icosphere.obj"/>
+
+		<ref id="icosphere"/>
+	</shape>
+</scene>

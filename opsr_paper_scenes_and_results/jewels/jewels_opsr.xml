@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<scene version="2.1.0">
+
+    <default name="spp" value="1024"/>
+    <default name="max_depth" value="10"/>
+    <default name="timeout" value="-1.0"/>
+    <default name="samples_per_pass" value="4294967295"/> <!-- == ((size_t) -1) -->
+ 
+    <default name="regularise_all" value="false"/>
+    <default name="roughening_mode" value="low"/>
+
+    <integrator type="path_opsr_interp_learnt">
+        <integer name="max_depth" value="$max_depth" />
+        <float name="timeout" value="$timeout"/>
+        <integer name="samples_per_pass" value="$samples_per_pass"/>
+
+        <string name="roughening_mode" value="$roughening_mode" />
+        <boolean name="regularise_all" value="$regularise_all"/>
+    </integrator>
+
+    <sensor type="perspective">
+        <float name="fov" value="49.1343" />
+        <transform name="to_world">
+           <lookat target="-1.38942, 1.22853, -2.91371" origin="-1.50461, 1.77483, -2.08408" up="0.0931266, 0.837449, -0.538522"/>
+        </transform>
+        <sampler type="independent">
+            <integer name="sample_count" value="$spp" />
+        </sampler>
+        <film type="hdrfilm">
+            <integer name="height" value="780" />
+            <string name="pixel_format" value="rgb" />
+            <integer name="width" value="1280" />
+            <rfilter type="gaussian" />
+        </film>
+    </sensor>
+
+    <emitter type="envmap">
+        <!-- <string name="filename" value="art_studio_1k.hdr"/>		 -->
+        <string name="filename" value="qwantani_2k.hdr" />
+        <transform name="to_world">
+            <!-- <rotate x="0.0" y="1.0" z="0.0" angle="100"/> -->
+            <!-- <rotate x="1.0" y="0.0" z="0.0" angle="-10"/> -->
+        </transform>
+    </emitter>
+
+    <bsdf type="roughconductor" id="NecklaceChain">
+        <float name="alpha" value="0.01" />
+        <string name="material" value="Cr" />
+    </bsdf>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ring1.obj" />
+        <bsdf type="roughconductor">
+            <float name="alpha" value="0.005" />
+            <string name="material" value="Au" />
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ring2.obj" />
+        <bsdf type="roughconductor">
+            <float name="alpha" value="0.001" />
+            <string name="material" value="Cu" />
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ring3.obj" />
+        <bsdf type="roughdielectric">
+            <float name="int_ior" value="2.54" />
+            <float name="alpha" value="0.005" />
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ring4.obj" />
+        <bsdf type="roughconductor">
+            <float name="alpha" value="0.001" />
+            <string name="material" value="Cr" />
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/cloth.obj" />
+        <bsdf type="bumpmap">
+            <bsdf type="diffuse">
+                <rgb name="reflectance" value="0.05 0.05 0.05" />
+            </bsdf>
+
+            <float name="scale" value="0.0075" />
+            <texture name="bumpmap" type="bitmap">
+                <string name="filename" value="textures/clothBump.jpg" />
+            </texture>
+        </bsdf>
+    </shape>
+</scene>

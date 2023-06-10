@@ -1,0 +1,20 @@
+<scene version="2.1.0">
+
+<!-- Defaults, these can be set via the command line: -Darg=value -->
+
+
+<!-- Camera and Rendering Parameters -->
+
+
+<!-- Materials -->
+
+
+<!-- Emitters -->
+
+	<emitter type="point" id="light">
+		<spectrum value="0.440000" name="intensity"/>
+	</emitter>
+
+<!-- Shapes -->
+
+</scene>

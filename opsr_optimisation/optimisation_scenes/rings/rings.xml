@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<scene version="2.0.0">
+
+	<default name="size" value="512"/>
+	<default name="spp" value="128"/>
+	<default name="depth" value="10"/>
+	<default name="pixel_format" value="rgb"/>
+	<default name="crop_width" value="$size" />
+	<default name="crop_height" value="$size" />
+	<default name="crop_offset_x" value="0" />
+	<default name="crop_offset_y" value="0" />
+	<default name="integrator" value="path_opsr" />
+	<default name="seed" value="0" />
+
+	<integrator type="momentrgb">
+		<integrator type="$integrator">
+			<integer name="max_depth" value="$depth" /> 
+		</integrator>
+	</integrator>
+
+	<sensor type="perspective">
+		<float name="near_clip" value="0.1"/>
+		<float name="far_clip" value="1000"/>
+		<transform name="to_world">
+			<lookat origin="-0.019792, 8.31019, 7.29103" target="0.006407, -0.000006, -0.65931" up="0, 1, 0"/>
+		</transform>
+		<float name="fov" value="25"/>
+
+		<sampler type="independent">
+				<integer name="sample_count" value="$spp" />
+				<integer name="seed" value="$seed" />
+		</sampler>
+		<film type="hdrfilm">
+				<integer name="width" value="$size" />
+				<integer name="height" value="$size" />
+				<integer name="crop_offset_x" value="$crop_offset_x" />
+				<integer name="crop_offset_y" value="$crop_offset_y" />
+				<integer name="crop_width" value="$crop_width" />
+				<integer name="crop_height" value="$crop_height" />
+				<string name="pixel_format" value="rgb" />
+				<rfilter type="gaussian" />
+		</film>
+	</sensor>
+
+	<shape type="obj">
+        <string name="filename" value="meshes/plane.obj" />
+        <bsdf type="diffuse">
+			<rgb name="reflectance" value="0.1,0.1,0.1"/>
+        </bsdf>
+    </shape>
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ring0.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.0001" />
+        </bsdf>
+    </shape>
+
+     <shape type="obj">
+        <string name="filename" value="meshes/ring1.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.001" />
+        </bsdf>
+    </shape>
+
+     <shape type="obj">
+        <string name="filename" value="meshes/ring2.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.01" />
+        </bsdf>
+    </shape>
+
+     <shape type="obj">
+        <string name="filename" value="meshes/ring3.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.1" />
+        </bsdf>
+    </shape>
+
+     <shape type="obj">
+        <string name="filename" value="meshes/ring4.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.15" />
+        </bsdf>
+    </shape>
+
+     <shape type="obj">
+        <string name="filename" value="meshes/ring5.obj" />
+        <bsdf type="roughconductor">
+            <string name="material" value="Au"/>
+            <float name="alpha" value="0.3" />
+        </bsdf>
+    </shape>
+
+	<emitter type="envmap">
+		<string name="filename" value="suburban_field_02_2k.hdr" />
+	</emitter>
+
+
+</scene>
